@@ -125,5 +125,47 @@ fn main() {
         println!("{}", char);
     }
 
+    let byte_arr1 = st2.bytes();
+    let st4 = &st2[0..6];
+    println!("st4 length: {}", st4.len());
+    let mut st5 = st4.to_string();
+    st5.clear();
+
+    let st6 = String::from("first name");
+    let st7 = String::from("last name");
+    let st8 = st6 + &st7; // st6 now does not exist and st7 reference is passed, it exists.
+    for char in st8.bytes() {
+        println!("{}", char);
+    }
+
+    // casting
+    let int_u8: u8 = 5;
+    let int_u32 = (int_u8 as i32) + 2;
+
+    // enums - custom data types of limited values
+    enum Days {
+        Monday,
+        Tuesday,
+    }
+
+    impl Days {
+        fn is_monday(&self) -> bool {
+            match self {
+                Days::Monday | Days::Tuesday => true,
+                _ => false,
+            }
+        }
+    }
+
+    let today:Days = Days::Monday;
+    match today {
+        Days::Monday => println!("today is monday"),
+        _ => println!("other day"),
+    }
+
+    println!("is today the monday? {}", today.is_monday());
+
+
+    // vectors - can store value of the same type, can grow
 
 }
