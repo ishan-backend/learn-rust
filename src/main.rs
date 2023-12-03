@@ -63,4 +63,67 @@ fn main() {
         _ => println!("not an important birthday !!")// match everthing else for current_age, helps you avoid errors
     }
 
+    // match with cmp
+    let voting_age: i32 = 18;
+    match current_age.cmp(&voting_age) {
+        Ordering::Less => println!("can't vote"),
+        Ordering::Greater => println!("can vote"),
+        Ordering::Equal => println!("you gained right to vote")
+    }
+
+    // elements in array must be of same type
+    let arr_1: [i32; 4] = [1, 2, 3, 4];
+    println!("first: {}, length: {}", arr_1[0], arr_1.len());
+    let mut loop_idx = 0;
+    loop { // while loop
+        if loop_idx == 3 {
+            break;
+        }
+        if arr_1[loop_idx] % 2 == 0 {
+            loop_idx += 1;
+            continue;
+        }
+        if arr_1[loop_idx] == 9 {
+            break;
+        }
+        println!("val: {}", arr_1[loop_idx]);
+        loop_idx += 1;
+    }
+
+    loop_idx = 0;
+    while  loop_idx < arr_1.len() {
+        println!("element: {}", arr_1[loop_idx]);
+        loop_idx += 1;
+    }
+
+    for val in arr_1.iter() {
+        println!("val: {}", val);
+    }
+
+    // tuples - can contain multiple data types of fixed size
+    let my_tuple: (i32, f64, String) = (47, 50_068.090, "derek".to_string());
+    println!("name: {}", my_tuple.2);
+    let (v1, v2, v3) = my_tuple;
+    println!("v1: {}", v1);
+
+    // strings
+    let mut str1 = String::new(); // []byte
+    str1.push('A'); // at the end
+    str1.push_str(" dam"); // at the end
+    for word in str1.split_whitespace() {
+        println!("word: {}", word);
+    }
+
+    let st2 = str1.replace("A", "Another");
+    println!("updated string: {}", st2);
+
+    let st3 = String::from("a d n c e");
+    let mut vec1: Vec<char> = st3.chars().collect();
+    vec1.sort();
+    vec1.dedup();
+    for char in vec1 {
+        println!("{}", char);
+    }
+
+
 }
