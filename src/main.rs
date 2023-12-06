@@ -4,6 +4,7 @@ use std::{f32, io, usize};
 use std::io::{Write, BufRead, BufReader, ErrorKind};
 use std::fs::File;
 use std::cmp::Ordering;
+use std::collections::HashMap;
 use std::ops::Add;
 use rand::Rng;
 
@@ -203,13 +204,68 @@ fn main() {
         // 1. each value has a variable called as owner, there is only one owner at a time.
         // 2. when owner goes out of scope, the value disappears
     let str11 = String::from("Hello");
-    let str2 = str11; // .clone() is removed? find out
     println!("{} World!", str11);
-    let mut str13 = String::from("ok");
-    // let str3 = print_and_change_string(str13); // check the strings mutable etc
+    let str22 = &str11; // .clone() is removed? find out
+    println!("{} World!", str22);
+    let mut str33 = String::from("ok");
+    let str333 = print_and_change_string(&mut str33); // String directly is not mutable, you can pass a mutable reference to the string
+    println!("{} World!", str333);
 
+    // Hashmaps - used to store key value pairs
+    let mut heroes = HashMap::new();
+    heroes.insert("Superman", "Clarke Kent");
+    heroes.insert("Batman", "Bruce Wayne");
+    for (k, v) in heroes.iter() {
+        println!("k : {}, v : {}", k, v)
+    }
 
-    // Hashmaps
+    println!("Length: {}", heroes.len());
+    if heroes.contains_key(&"Superman") {
+        let the_superman = heroes.get(&"Superman");
+        match the_superman {
+            Some(x) => println!("superman is a hero"),
+            None => println!("superman is not a hero"), // if something else
+        }
+    }
+
+    // Structs
+    struct Customer {
+        name: String,
+        address: String,
+        balance: f32,
+    }
+    let mut alice = Customer {
+        name: String::from("Alice"),
+        address: String::from("Alice"),
+        balance: 234.59,
+    };
+    alice.name = String::from("Alice new name");
+
+    struct Rectangle<T, U> {
+        length: T,
+        height: U,
+    }
+    let rec = Rectangle{length: 4, height:10.5};
+
+    //  Traits - like interfaces, structs can implememt it
+    trait Shape {
+        fn new(length: f32, width: f32) -> Self;
+        fn area(&self) -> f32;
+    }
+    struct Square {length: f32, width: f32}; // many structs can implement trait
+    impl Shape for Square {
+        fn new(length: f32, width: f32) -> Self {
+            return Square{length, width};
+        }
+
+        fn area(&self) -> f32 {
+            return self.length * self.width;
+        }
+    }
+
+    let sq: Square = Shape::new(10.0, 10.0);
+    println!("area of sqaure: {}", sq.area());
+
 }
 
 fn get_sum_2(x: i32, y:i32) -> i32 {
@@ -234,7 +290,7 @@ fn get_sum_gen<T:Add<Output = T>>(x: T, y: T) -> T { // add trait
     return x + y;
 }
 
-fn print_and_change_string(name: &mut str) -> String {
+fn print_and_change_string(name: &mut String) -> String {
     name.push_str(" is happy");
     let result = name;
     result.to_string()
