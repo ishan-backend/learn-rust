@@ -4,6 +4,7 @@ use std::{f32, io, usize};
 use std::io::{Write, BufRead, BufReader, ErrorKind};
 use std::fs::File;
 use std::cmp::Ordering;
+use std::ops::Add;
 use rand::Rng;
 
 fn main() {
@@ -167,5 +168,74 @@ fn main() {
 
 
     // vectors - can store value of the same type, can grow
+    let vec1: Vec<i32> = Vec::new(); // empty vector
+    let mut vec2 = vec![1, 2, 3, 4]; // vector with some values
+    vec2.push(5);
+    println!("first_element: {}", vec2[0]);
+    let second_element: &i32 = &vec2[1];
+    match vec2.get(1) {
+        Some(second_element) => println!("second_element: {}", second_element),
+        None => println!("no second value"),
+    }
 
+    for i in &mut vec2 {
+        *i *= 2;
+    }
+    for i in &vec2 {
+        println!("{}", i);
+    }
+    println!("vector lenght: {}", vec2.len());
+    println!("last element popped: {:?}", vec2.pop());
+
+    // functions - can be defined before or after main
+    println!("get sum 2 : {}", get_sum_2(4, 5));
+    let (val1, val2) = get2(4, 5);
+    println!("get2: {}, {}", val1, val2);
+    let num_list = vec![1, 2, 3, 4, 5];
+    println!("sum of list: {}", sum_list(&num_list));
+
+    // generic types - we can specify data types that can be defined at a later time (those which can be multiple and used at later time in function)
+    println!("sum of generic 5 + 4: {}", get_sum_gen(5, 4));
+    println!("sum of generic 5.1 + 4.1: {}", get_sum_gen(5.1, 4.1));
+
+    // Stack stores data in LIFO manner, and data in stack must be of defined fixed size.
+    // Heap - you request a certain amount of space. OS finds available space and returns an address for that space called pointer.
+        // 1. each value has a variable called as owner, there is only one owner at a time.
+        // 2. when owner goes out of scope, the value disappears
+    let str11 = String::from("Hello");
+    let str2 = str11; // .clone() is removed? find out
+    println!("{} World!", str11);
+    let mut str13 = String::from("ok");
+    // let str3 = print_and_change_string(str13); // check the strings mutable etc
+
+
+    // Hashmaps
+}
+
+fn get_sum_2(x: i32, y:i32) -> i32 {
+    println!("{} + {} = {}", x, y, x+y);
+    x+y // without semi-colon bcz statement doesn't evaluate to a function
+}
+
+fn get2(x: i32, y:i32) -> (i32, i32) {
+    return (x+1, x+2);
+}
+
+fn sum_list(list: &[i32]) -> i32 {
+    let mut sum = 0;
+    for &val in list.iter() {
+        sum += &val;
+    }
+
+    return sum;
+}
+
+fn get_sum_gen<T:Add<Output = T>>(x: T, y: T) -> T { // add trait
+    return x + y;
+}
+
+fn print_and_change_string(name: &mut str) -> String {
+    name.push_str(" is happy");
+    let result = name;
+    result.to_string()
 }
